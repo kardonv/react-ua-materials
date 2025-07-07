@@ -1,0 +1,1 @@
+export const Auth = () => <div>Auth Feature</div>;
