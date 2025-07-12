@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 
 function SetStateInFunctionalComponent() {
-    const [counter, setCounter] = useState<number>(0);
+    console.log('SetStateInFunctionalComponent function called');
+    let [counter, setCounter] = useState<number>(0);
 
     const handleIncrement = () => {
-        setCounter(counter + 1)
+        counter += 1;
+        // setCounter(counter + 1)
+        setCounter((prevValue) => prevValue)
         console.log('Incremented count:', counter);
     };
 
     const handleDecrement = () => {
-        setCounter((value) => value - 1);
+        setCounter((prevValue) => prevValue - 1);
     };
 
     const incrementFiveTimes = () => {

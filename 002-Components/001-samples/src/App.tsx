@@ -18,8 +18,19 @@ import UseEffectDemo from './components/014-UseEffectDemo';
 
 
 function App() {
+
+  const obj = {
+    testValue: '',
+  }
+
+  const hadnleUserInput = (value: string) => {
+    console.log('User input:', (window as any).a);
+    obj.testValue = value;
+  }
+
   return (
     <Router>
+
       <nav>
         <ul>
           <li>
@@ -72,7 +83,12 @@ function App() {
         <Routes>
           <Route path="/functional" element={<FunctionalComponent />} />
           <Route path="/class" element={<ClassComponent />} />
-          <Route path="/props-demo" element={<ComponentProps title="Props in functional component" count={42} />} />
+          <Route path="/props-demo" element={
+            <ComponentProps
+              title="Props in functional component"
+              count={42}
+              handleInput={hadnleUserInput}
+            />} />
           <Route path="/class-props" element={<ComponentPropsClass title="Props in class component" value={100} />} />
           <Route path="/children-prop" element={
             <ChildrenProp>

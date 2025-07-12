@@ -24,11 +24,15 @@ import React from 'react';
  * └────────────────────────────┴────────────────────────────────────────┴────────────────────────────────────────┘
  */
 
-class StateInClassComponent extends React.Component<{}, { count: number }> {
-    constructor(props: {}) {
+interface StateInClassComponentProps {
+    // initialValue: number;
+}
+
+class StateInClassComponent extends React.Component<StateInClassComponentProps, { count: number }> {
+    constructor(props: StateInClassComponentProps) {
         super(props);
         this.state = {
-            count: 0,
+            count: 0, // Initialize state with a prop
         };
     }
 
