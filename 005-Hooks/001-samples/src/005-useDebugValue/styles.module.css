@@ -1,0 +1,218 @@
+/* Container Styles */
+.container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Main Grid Layout */
+.mainGrid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+/* Section Cards */
+.sectionCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+/* Section Description */
+.sectionDescription {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+/* Input Groups */
+.inputGroup {
+  margin-bottom: 15px;
+}
+
+.inputGroupInline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputGroupStacked {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Labels */
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.labelInline {
+  margin-right: 10px;
+}
+
+/* Input Styles */
+.input {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.inputSmall {
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.inputFull {
+  width: 100%;
+}
+
+.inputMedium {
+  width: 200px;
+}
+
+/* Status Display */
+.statusDisplay {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+/* Form Validation */
+.formField {
+  margin-bottom: 10px;
+}
+
+.errorMessage {
+  color: #dc3545;
+  font-size: 14px;
+}
+
+/* Form Status Display */
+.formStatusValid {
+  padding: 10px;
+  background-color: #d4edda;
+  border-radius: 4px;
+  border: 1px solid #c3e6cb;
+}
+
+.formStatusInvalid {
+  padding: 10px;
+  background-color: #f8d7da;
+  border-radius: 4px;
+  border: 1px solid #f5c6cb;
+}
+
+.formStatusTextValid {
+  color: #155724;
+  margin: 0;
+}
+
+.formStatusTextInvalid {
+  color: #721c24;
+  margin: 0;
+}
+
+/* Async Data Display */
+.asyncDataDisplay {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.loadingText {
+  margin: 0;
+}
+
+.errorText {
+  color: #dc3545;
+  margin: 0;
+}
+
+.successText {
+  color: #28a745;
+  margin: 0;
+}
+
+/* Instructions Section */
+.instructionsSection {
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.instructionsList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.instructionsList li {
+  margin-bottom: 8px;
+}
+
+/* Benefits Box */
+.benefitsBox {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.benefitsTitle {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.benefitsList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.benefitsList li {
+  margin-bottom: 8px;
+}
+
+.benefitsList strong {
+  font-weight: 600;
+}
+
+/* Code Elements */
+.code {
+  background-color: #f8f9fa;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mainGrid {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  .inputGroupInline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .inputMedium {
+    width: 100%;
+  }
+} 

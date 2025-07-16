@@ -1,0 +1,932 @@
+/* ===== 001-useLocalStorage ===== */
+
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.containerLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.containerDark {
+  background-color: #333;
+  color: #fff;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.description {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.cardLight {
+  background-color: #f9f9f9;
+}
+
+.cardDark {
+  background-color: #444;
+}
+
+.cardTitle {
+  margin-bottom: 15px;
+}
+
+.fieldContainer {
+  margin-bottom: 15px;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.fieldInputLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.fieldInputDark {
+  background-color: #555;
+  color: #fff;
+}
+
+.fieldSelect {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.fieldSelectLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.fieldSelectDark {
+  background-color: #555;
+  color: #fff;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counterDisplay {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.counterValue {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.counterButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.counterButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.counterButton:hover {
+  background-color: #e9ecef;
+}
+
+.notesContainer {
+  margin-bottom: 10px;
+}
+
+.noteItem {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.noteInput {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.noteInputLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.noteInputDark {
+  background-color: #555;
+  color: #fff;
+}
+
+.removeButton {
+  padding: 8px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover {
+  background-color: #d32f2f;
+}
+
+.addButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+}
+
+.themeButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.themeButton:hover {
+  background-color: #1976d2;
+}
+
+.clearButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clearButton:hover {
+  background-color: #f57c00;
+}
+
+.logContainer {
+  margin-top: 20px;
+}
+
+.logTitle {
+  margin-bottom: 10px;
+}
+
+.logDisplay {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.logDisplayLight {
+  background-color: #f9f9f9;
+}
+
+.logDisplayDark {
+  background-color: #444;
+}
+
+.logEntry {
+  margin-bottom: 2px;
+}
+
+.featuresContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+}
+
+.featuresTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.featuresList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.featuresList li {
+  margin-bottom: 5px;
+}
+
+/* ===== 002-useBreakpoint ===== */
+
+.breakpointContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.breakpointTitle {
+  margin-bottom: 20px;
+}
+
+.breakpointDescription {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.breakpointGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.breakpointCard {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.breakpointCardTitle {
+  margin-bottom: 15px;
+}
+
+.currentBreakpoint {
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  color: #2196f3;
+  margin-bottom: 10px;
+}
+
+.windowSize {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.windowSizeValue {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.windowSizeLabel {
+  color: #666;
+  font-size: 14px;
+}
+
+.deviceList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deviceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.deviceItemActive {
+  background-color: #e8f5e8;
+}
+
+.deviceItemInactive {
+  background-color: #f5f5f5;
+}
+
+.deviceStatus {
+  font-weight: bold;
+}
+
+.deviceStatusActive {
+  color: #4caf50;
+}
+
+.deviceStatusInactive {
+  color: #999;
+}
+
+.methodsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.methodItem {
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.methodItemActive {
+  background-color: #e8f5e8;
+}
+
+.methodItemInactive {
+  background-color: #f5f5f5;
+}
+
+.responsiveGrid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.responsiveGridMobile {
+  grid-template-columns: 1fr;
+}
+
+.responsiveGridTablet {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.responsiveGridDesktop {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.responsiveColumn {
+  padding: 15px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.column1 {
+  background-color: #e3f2fd;
+}
+
+.column2 {
+  background-color: #f3e5f5;
+}
+
+.column3 {
+  background-color: #e8f5e8;
+}
+
+.columnHidden {
+  display: none;
+}
+
+.layoutInfo {
+  font-size: 12px;
+  color: #666;
+}
+
+.referenceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.referenceCard {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.referenceCardActive {
+  background-color: #e3f2fd;
+}
+
+.referenceCardInactive {
+  background-color: #fff;
+}
+
+.referenceName {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.referenceNameActive {
+  color: #2196f3;
+}
+
+.referenceNameInactive {
+  color: #333;
+}
+
+.referenceWidth {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.referenceDescription {
+  font-size: 12px;
+  color: #666;
+}
+
+.referenceCurrent {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #2196f3;
+  font-weight: bold;
+}
+
+.breakpointLogContainer {
+  margin-top: 20px;
+}
+
+.breakpointLogTitle {
+  margin-bottom: 10px;
+}
+
+.breakpointLogDisplay {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  font-size: 12px;
+}
+
+.breakpointLogEntry {
+  margin-bottom: 2px;
+}
+
+.breakpointFeaturesContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+}
+
+.breakpointFeaturesTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.breakpointFeaturesList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.breakpointFeaturesList li {
+  margin-bottom: 5px;
+}
+
+.usageContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+}
+
+.usageTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.codeBlock {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+/* ===== 003-useDebounce ===== */
+
+.debounceContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.debounceTitle {
+  margin-bottom: 20px;
+}
+
+.debounceDescription {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.debounceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.debounceCard {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.debounceCardTitle {
+  margin-bottom: 15px;
+}
+
+.debounceCardDescription {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.debounceFieldContainer {
+  margin-bottom: 15px;
+}
+
+.debounceFieldLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.debounceFieldInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.statusBox {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.statusBoxCurrent {
+  background-color: #e8f5e8;
+}
+
+.statusBoxDebounced {
+  background-color: #e3f2fd;
+}
+
+.statusBoxWarning {
+  background-color: #fff3cd;
+}
+
+.statusBoxError {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.statusBoxSuccess {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.statusBoxInfo {
+  background-color: #e3f2fd;
+}
+
+.saveButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+  background-color: #45a049;
+}
+
+.infoBox {
+  padding: 10px;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.infoList {
+  margin: 5px 0 0 20px;
+  font-size: 12px;
+}
+
+.comparisonContainer {
+  margin-top: 20px;
+}
+
+.comparisonTitle {
+  margin-bottom: 15px;
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.comparisonCard {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.comparisonCardTitle {
+  margin: 0 0 10px 0;
+}
+
+.comparisonCardTitleBad {
+  color: #f44336;
+}
+
+.comparisonCardTitleGood {
+  color: #4caf50;
+}
+
+.comparisonList {
+  margin: 0;
+  font-size: 14px;
+}
+
+.debounceLogContainer {
+  margin-top: 20px;
+}
+
+.debounceLogTitle {
+  margin-bottom: 10px;
+}
+
+.debounceLogDisplay {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  font-size: 12px;
+}
+
+.debounceLogEntry {
+  margin-bottom: 2px;
+}
+
+.debounceFeaturesContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 4px;
+}
+
+.debounceFeaturesTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.debounceFeaturesList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.debounceFeaturesList li {
+  margin-bottom: 5px;
+}
+
+.debounceUsageContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+}
+
+.debounceUsageTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.debounceCodeBlock {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+.useCasesContainer {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f3e5f5;
+  border: 1px solid #9c27b0;
+  border-radius: 4px;
+}
+
+.useCasesTitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.useCasesList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.useCasesList li {
+  margin-bottom: 5px;
+}
+
+.useCasesList strong {
+  font-weight: bold;
+}
+
+/* ===== Theme Support ===== */
+
+/* Light theme (default) */
+:global(.light-theme) .container,
+:global(.light-theme) .breakpointContainer,
+:global(.light-theme) .debounceContainer {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+:global(.light-theme) .card,
+:global(.light-theme) .breakpointCard,
+:global(.light-theme) .debounceCard {
+  background-color: #f9f9f9;
+  border-color: #ddd;
+}
+
+:global(.light-theme) .logDisplay,
+:global(.light-theme) .breakpointLogDisplay,
+:global(.light-theme) .debounceLogDisplay {
+  background-color: #f9f9f9;
+  border-color: #ccc;
+}
+
+/* Dark theme */
+:global(.dark-theme) .container,
+:global(.dark-theme) .breakpointContainer,
+:global(.dark-theme) .debounceContainer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+:global(.dark-theme) .card,
+:global(.dark-theme) .breakpointCard,
+:global(.dark-theme) .debounceCard {
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+:global(.dark-theme) .logDisplay,
+:global(.dark-theme) .breakpointLogDisplay,
+:global(.dark-theme) .debounceLogDisplay {
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+:global(.dark-theme) .fieldInput,
+:global(.dark-theme) .fieldSelect,
+:global(.dark-theme) .noteInput,
+:global(.dark-theme) .debounceFieldInput {
+  background-color: #3d3d3d;
+  border-color: #555;
+  color: #ffffff;
+}
+
+:global(.dark-theme) .counterButton {
+  background-color: #3d3d3d;
+  border-color: #555;
+  color: #ffffff;
+}
+
+:global(.dark-theme) .counterButton:hover {
+  background-color: #4d4d4d;
+}
+
+/* ===== Responsive Design ===== */
+
+@media (max-width: 768px) {
+  .gridContainer,
+  .breakpointGrid,
+  .debounceGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .referenceGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container,
+  .breakpointContainer,
+  .debounceContainer {
+    padding: 15px;
+  }
+  
+  .card,
+  .breakpointCard,
+  .debounceCard {
+    padding: 15px;
+  }
+  
+  .currentBreakpoint {
+    font-size: 36px;
+  }
+  
+  .counterValue {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .breakpointContainer,
+  .debounceContainer {
+    padding: 10px;
+  }
+  
+  .card,
+  .breakpointCard,
+  .debounceCard {
+    padding: 10px;
+  }
+  
+  .logDisplay,
+  .breakpointLogDisplay,
+  .debounceLogDisplay {
+    height: 150px;
+  }
+  
+  .counterButtons {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .counterButton {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+} 

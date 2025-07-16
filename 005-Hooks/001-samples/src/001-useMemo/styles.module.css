@@ -1,0 +1,239 @@
+.container {
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  transition: all 0.3s ease;
+}
+
+.containerDark {
+  background-color: #333;
+  color: #fff;
+}
+
+.containerLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.inputContainer {
+  margin-bottom: 20px;
+}
+
+.input {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.buttonContainer {
+  margin-bottom: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttonLight {
+  background-color: #007bff;
+}
+
+.buttonDark {
+  background-color: #666;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.resultCard {
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.resultCardLight {
+  background-color: #f8f9fa;
+}
+
+.resultCardDark {
+  background-color: #555;
+}
+
+.resultText {
+  color: #666;
+}
+
+.infoSection {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.infoSectionLight {
+  background-color: #e9ecef;
+}
+
+.infoSectionDark {
+  background-color: #444;
+}
+
+.infoList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.infoList li {
+  margin-bottom: 8px;
+}
+
+/* Filter Users Component */
+.filterContainer {
+  padding: 20px;
+}
+
+.filterInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filterList {
+  list-style: none;
+  padding: 0;
+}
+
+.filterListItem {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+/* UseMemo with Child Components */
+.parentContainer {
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+.parentContainerLight {
+  background-color: #fff;
+  color: #333;
+}
+
+.parentContainerDark {
+  background-color: #222;
+  color: #fff;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.inputLabel {
+  margin-right: 10px;
+}
+
+.numberInput {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.buttonGroup {
+  margin-bottom: 20px;
+}
+
+.themeButton {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.themeButtonLight {
+  background-color: #007bff;
+}
+
+.themeButtonDark {
+  background-color: #666;
+}
+
+.counterButton {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.infoGroup {
+  margin-bottom: 20px;
+}
+
+.expensiveChild {
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 2px solid #007bff;
+}
+
+.expensiveChildLight {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.expensiveChildDark {
+  background-color: #333;
+  color: #fff;
+}
+
+.expensiveChildButton {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.simpleChild {
+  padding: 10px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.explanationSection {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.explanationSectionLight {
+  background-color: #e9ecef;
+}
+
+.explanationSectionDark {
+  background-color: #444;
+}
+
+.explanationList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.explanationList li {
+  margin-bottom: 8px;
+}
