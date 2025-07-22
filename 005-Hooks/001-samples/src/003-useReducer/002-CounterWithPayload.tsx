@@ -1,71 +1,13 @@
 import React, { useReducer, useState } from 'react';
 
 import styles from './styles.module.css';
+import { CounterState } from './types/CounterWithPayload';
+import { counterReducer } from './reducers/CounterWithPayload';
 
-// Define the state type
-interface CounterState {
-  count: number;
-  history: number[];
-}
-
-// Define action types with payload
-type CounterAction = 
-  | { type: 'INCREMENT' }
-  | { type: 'DECREMENT' }
-  | { type: 'ADD_AMOUNT'; payload: number }
-  | { type: 'MULTIPLY_BY'; payload: number }
-  | { type: 'RESET' }
-  | { type: 'SET_VALUE'; payload: number };
-
-// Initial state
 const initialState: CounterState = {
   count: 0,
   history: []
 };
-
-// Reducer function
-function counterReducer(state: CounterState, action: CounterAction): CounterState {
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-        ...state,
-        count: state.count + 1,
-        history: [...state.history, state.count]
-      };
-    case 'DECREMENT':
-      return {
-        ...state,
-        count: state.count - 1,
-        history: [...state.history, state.count]
-      };
-    case 'ADD_AMOUNT':
-      return {
-        ...state,
-        count: state.count + action.payload,
-        history: [...state.history, state.count]
-      };
-    case 'MULTIPLY_BY':
-      return {
-        ...state,
-        count: state.count * action.payload,
-        history: [...state.history, state.count]
-      };
-    case 'SET_VALUE':
-      return {
-        ...state,
-        count: action.payload,
-        history: [...state.history, state.count]
-      };
-    case 'RESET':
-      return {
-        ...state,
-        count: 0,
-        history: []
-      };
-    default:
-      return state;
-  }
-}
 
 export default function CounterWithPayload() {
   const [state, dispatch] = useReducer(counterReducer, initialState);
@@ -98,7 +40,7 @@ export default function CounterWithPayload() {
   return (
     <div className={styles.container}>
       <h2 className={styles.counterDisplayCentered}>Counter with Payload Actions</h2>
-      
+
       <div className={`${styles.counterDisplay} ${styles.counterDisplayCentered}`}>
         {state.count}
       </div>
@@ -130,7 +72,7 @@ export default function CounterWithPayload() {
       {/* Payload Controls */}
       <div className={styles.payloadControls}>
         <h4 className={styles.payloadControlsTitle}>Actions with Payload:</h4>
-        
+
         <div className={styles.payloadControlsGroup}>
           <input
             type="number"
@@ -139,7 +81,7 @@ export default function CounterWithPayload() {
             placeholder="Enter a number"
             className={styles.payloadInput}
           />
-          
+
           <button
             onClick={handleAddAmount}
             className={`${styles.buttonTiny} ${styles.buttonInfo}`}
@@ -188,7 +130,7 @@ export default function CounterWithPayload() {
           <li><strong>SET_VALUE:</strong> Sets count to the specified value</li>
           <li><strong>History:</strong> Tracks previous values for debugging</li>
         </ul>
-        
+
         <h4>Benefits of Payload Actions:</h4>
         <ul className={styles.explanationList}>
           <li>Pass dynamic values to state updates</li>

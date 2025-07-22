@@ -1,45 +1,12 @@
 import React, { useReducer } from 'react';
 
 import styles from './styles.module.css';
+import { CounterState } from './types/CounterSimple';
+import { counterReducer } from './reducers/CounterSimple';
 
-// Define the state type
-interface CounterState {
-  count: number;
-}
-
-// Define action types
-type CounterAction = 
-  | { type: 'INCREMENT' }
-  | { type: 'DECREMENT' }
-  | { type: 'RESET' };
-
-// Initial state
 const initialState: CounterState = {
   count: 0
 };
-
-// Reducer function
-function counterReducer(state: CounterState, action: CounterAction): CounterState {
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-        ...state,
-        count: state.count + 1
-      };
-    case 'DECREMENT':
-      return {
-        ...state,
-        count: state.count - 1
-      };
-    case 'RESET':
-      return {
-        ...state,
-        count: 0
-      };
-    default:
-      return state;
-  }
-}
 
 export default function CounterSimple() {
   const [state, dispatch] = useReducer(counterReducer, initialState);

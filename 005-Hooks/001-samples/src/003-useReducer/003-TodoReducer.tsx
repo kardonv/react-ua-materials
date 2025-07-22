@@ -1,31 +1,10 @@
 import React, { useReducer, useState } from 'react';
 
 import styles from './styles.module.css';
+import { Todo, TodoState } from './types/TodoReducer';
+import { todoReducer } from './reducers/TodoReducer';
 
 // Define Todo item type
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-  priority: 'low' | 'medium' | 'high';
-}
-
-// Define the state type
-interface TodoState {
-  todos: Todo[];
-  filter: 'all' | 'active' | 'completed';
-  nextId: number;
-}
-
-// Define action types
-type TodoAction = 
-  | { type: 'ADD_TODO'; payload: { text: string; priority: 'low' | 'medium' | 'high' } }
-  | { type: 'TOGGLE_TODO'; payload: number }
-  | { type: 'DELETE_TODO'; payload: number }
-  | { type: 'UPDATE_TODO'; payload: { id: number; text: string } }
-  | { type: 'SET_FILTER'; payload: 'all' | 'active' | 'completed' }
-  | { type: 'CLEAR_COMPLETED' }
-  | { type: 'TOGGLE_ALL' };
 
 // Initial state
 const initialState: TodoState = {
@@ -35,75 +14,7 @@ const initialState: TodoState = {
 };
 
 // Reducer function
-function todoReducer(state: TodoState, action: TodoAction): TodoState {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        ...state,
-        todos: [
-          ...state.todos,
-          {
-            id: state.nextId,
-            text: action.payload.text,
-            completed: false,
-            priority: action.payload.priority
-          }
-        ],
-        nextId: state.nextId + 1
-      };
 
-    case 'TOGGLE_TODO':
-      return {
-        ...state,
-        todos: state.todos.map(todo =>
-          todo.id === action.payload
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
-      };
-
-    case 'DELETE_TODO':
-      return {
-        ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload)
-      };
-
-    case 'UPDATE_TODO':
-      return {
-        ...state,
-        todos: state.todos.map(todo =>
-          todo.id === action.payload.id
-            ? { ...todo, text: action.payload.text }
-            : todo
-        )
-      };
-
-    case 'SET_FILTER':
-      return {
-        ...state,
-        filter: action.payload
-      };
-
-    case 'CLEAR_COMPLETED':
-      return {
-        ...state,
-        todos: state.todos.filter(todo => !todo.completed)
-      };
-
-    case 'TOGGLE_ALL':
-      const allCompleted = state.todos.every(todo => todo.completed);
-      return {
-        ...state,
-        todos: state.todos.map(todo => ({
-          ...todo,
-          completed: !allCompleted
-        }))
-      };
-
-    default:
-      return state;
-  }
-}
 
 export default function TodoReducer() {
   const [state, dispatch] = useReducer(todoReducer, initialState);
@@ -155,15 +66,6 @@ export default function TodoReducer() {
     setEditText('');
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high': return '#dc3545';
-      case 'medium': return '#ffc107';
-      case 'low': return '#28a745';
-      default: return '#6c757d';
-    }
-  };
-
   const completedCount = state.todos.filter(todo => todo.completed).length;
   const totalCount = state.todos.length;
 
@@ -183,7 +85,7 @@ export default function TodoReducer() {
             className={styles.todoFormInput}
             onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
           />
-          
+
           <select
             value={newTodoPriority}
             onChange={(e) => setNewTodoPriority(e.target.value as 'low' | 'medium' | 'high')}
@@ -260,15 +162,14 @@ export default function TodoReducer() {
                 onChange={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })}
                 style={{ margin: 0 }}
               />
-              
+
               <span
-                className={`${styles.todoPriority} ${
-                  todo.priority === 'high' ? styles.todoPriorityHigh :
+                className={`${styles.todoPriority} ${todo.priority === 'high' ? styles.todoPriorityHigh :
                   todo.priority === 'medium' ? styles.todoPriorityMedium :
-                  styles.todoPriorityLow
-                }`}
+                    styles.todoPriorityLow
+                  }`}
               />
-              
+
               {editingId === todo.id ? (
                 <div className={styles.todoEditForm}>
                   <input
@@ -298,17 +199,16 @@ export default function TodoReducer() {
                   {todo.text}
                 </span>
               )}
-              
+
               <span
-                className={`${styles.todoPriorityLabel} ${
-                  todo.priority === 'high' ? styles.todoPriorityLabelHigh :
+                className={`${styles.todoPriorityLabel} ${todo.priority === 'high' ? styles.todoPriorityLabelHigh :
                   todo.priority === 'medium' ? styles.todoPriorityLabelMedium :
-                  styles.todoPriorityLabelLow
-                }`}
+                    styles.todoPriorityLabelLow
+                  }`}
               >
                 {todo.priority}
               </span>
-              
+
               <div className={styles.todoActions}>
                 <button
                   onClick={() => handleEditTodo(todo)}

@@ -1,212 +1,9 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 
 import styles from './styles.module.css';
+import { FormState } from './types/FormReducer';
+import { formReducer, initialState } from './reducers/FormReducer';
 
-// Define form field types
-interface FormField {
-  value: string;
-  error: string;
-  touched: boolean;
-}
-
-// Define the form state type
-interface FormState {
-  fields: {
-    firstName: FormField;
-    lastName: FormField;
-    email: FormField;
-    password: FormField;
-    confirmPassword: FormField;
-    age: FormField;
-    agreeToTerms: FormField;
-  };
-  isSubmitting: boolean;
-  isSubmitted: boolean;
-  submitError: string;
-}
-
-// Define action types
-type FormAction = 
-  | { type: 'SET_FIELD_VALUE'; payload: { field: keyof FormState['fields']; value: string } }
-  | { type: 'SET_FIELD_ERROR'; payload: { field: keyof FormState['fields']; error: string } }
-  | { type: 'SET_FIELD_TOUCHED'; payload: { field: keyof FormState['fields']; touched: boolean } }
-  | { type: 'VALIDATE_FIELD'; payload: keyof FormState['fields'] }
-  | { type: 'VALIDATE_ALL_FIELDS' }
-  | { type: 'SET_SUBMITTING'; payload: boolean }
-  | { type: 'SET_SUBMITTED'; payload: boolean }
-  | { type: 'SET_SUBMIT_ERROR'; payload: string }
-  | { type: 'RESET_FORM' };
-
-// Initial state
-const initialField: FormField = {
-  value: '',
-  error: '',
-  touched: false
-};
-
-const initialState: FormState = {
-  fields: {
-    firstName: initialField,
-    lastName: initialField,
-    email: initialField,
-    password: initialField,
-    confirmPassword: initialField,
-    age: initialField,
-    agreeToTerms: initialField
-  },
-  isSubmitting: false,
-  isSubmitted: false,
-  submitError: ''
-};
-
-// Validation functions
-const validateField = (fieldName: keyof FormState['fields'], value: string, state: FormState): string => {
-  switch (fieldName) {
-    case 'firstName':
-      if (!value.trim()) return 'First name is required';
-      if (value.length < 2) return 'First name must be at least 2 characters';
-      return '';
-    
-    case 'lastName':
-      if (!value.trim()) return 'Last name is required';
-      if (value.length < 2) return 'Last name must be at least 2 characters';
-      return '';
-    
-    case 'email':
-      if (!value.trim()) return 'Email is required';
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) return 'Please enter a valid email address';
-      return '';
-    
-    case 'password':
-      if (!value) return 'Password is required';
-      if (value.length < 8) return 'Password must be at least 8 characters';
-      if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value)) {
-        return 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
-      }
-      return '';
-    
-    case 'confirmPassword':
-      if (!value) return 'Please confirm your password';
-      if (value !== state.fields.password.value) return 'Passwords do not match';
-      return '';
-    
-    case 'age':
-      if (!value) return 'Age is required';
-      const age = parseInt(value);
-      if (isNaN(age) || age < 13 || age > 120) return 'Age must be between 13 and 120';
-      return '';
-    
-    case 'agreeToTerms':
-      if (value !== 'true') return 'You must agree to the terms and conditions';
-      return '';
-    
-    default:
-      return '';
-  }
-};
-
-// Reducer function
-function formReducer(state: FormState, action: FormAction): FormState {
-  switch (action.type) {
-    case 'SET_FIELD_VALUE':
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [action.payload.field]: {
-            ...state.fields[action.payload.field],
-            value: action.payload.value,
-            error: '' // Clear error when user starts typing
-          }
-        }
-      };
-
-    case 'SET_FIELD_ERROR':
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [action.payload.field]: {
-            ...state.fields[action.payload.field],
-            error: action.payload.error
-          }
-        }
-      };
-
-    case 'SET_FIELD_TOUCHED':
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [action.payload.field]: {
-            ...state.fields[action.payload.field],
-            touched: action.payload.touched
-          }
-        }
-      };
-
-    case 'VALIDATE_FIELD':
-      const field = state.fields[action.payload];
-      const error = validateField(action.payload, field.value, state);
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          [action.payload]: {
-            ...field,
-            error,
-            touched: true
-          }
-        }
-      };
-
-    case 'VALIDATE_ALL_FIELDS':
-      const updatedFields = { ...state.fields };
-      let hasErrors = false;
-      
-      Object.keys(updatedFields).forEach(fieldName => {
-        const fieldKey = fieldName as keyof FormState['fields'];
-        const error = validateField(fieldKey, updatedFields[fieldKey].value, state);
-        updatedFields[fieldKey] = {
-          ...updatedFields[fieldKey],
-          error,
-          touched: true
-        };
-        if (error) hasErrors = true;
-      });
-
-      return {
-        ...state,
-        fields: updatedFields,
-        submitError: hasErrors ? 'Please fix the errors above' : ''
-      };
-
-    case 'SET_SUBMITTING':
-      return {
-        ...state,
-        isSubmitting: action.payload
-      };
-
-    case 'SET_SUBMITTED':
-      return {
-        ...state,
-        isSubmitted: action.payload
-      };
-
-    case 'SET_SUBMIT_ERROR':
-      return {
-        ...state,
-        submitError: action.payload
-      };
-
-    case 'RESET_FORM':
-      return initialState;
-
-    default:
-      return state;
-  }
-}
 
 export default function FormReducer() {
   const [state, dispatch] = useReducer(formReducer, initialState);
@@ -221,33 +18,33 @@ export default function FormReducer() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate all fields first
     dispatch({ type: 'VALIDATE_ALL_FIELDS' });
-    
+
     // Check if there are any errors
     const hasErrors = Object.values(state.fields).some(field => field.error);
     if (hasErrors) {
       return;
     }
-    
+
     // Simulate form submission
     dispatch({ type: 'SET_SUBMITTING', payload: true });
-    
+
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Simulate random error (10% chance)
       if (Math.random() < 0.1) {
         throw new Error('Network error occurred');
       }
-      
+
       dispatch({ type: 'SET_SUBMITTED', payload: true });
     } catch (error) {
-      dispatch({ 
-        type: 'SET_SUBMIT_ERROR', 
-        payload: error instanceof Error ? error.message : 'An error occurred' 
+      dispatch({
+        type: 'SET_SUBMIT_ERROR',
+        payload: error instanceof Error ? error.message : 'An error occurred'
       });
     } finally {
       dispatch({ type: 'SET_SUBMITTING', payload: false });

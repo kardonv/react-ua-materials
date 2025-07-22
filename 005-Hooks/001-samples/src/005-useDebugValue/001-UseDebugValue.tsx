@@ -1,142 +1,10 @@
-import React, { useState, useDebugValue, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 
 import styles from './styles.module.css';
+import { useAsyncData, useExpensiveCalculation, useFormValidation, useUserStatus } from './hooks';
 
-// Custom hook with useDebugValue
-function useUserStatus(userId: number) {
-  const [status, setStatus] = useState<'online' | 'offline' | 'away'>('offline');
-  const [lastSeen, setLastSeen] = useState<Date>(new Date());
 
-  // useDebugValue provides custom label in React DevTools
-  useDebugValue(
-    status === 'online' 
-      ? '🟢 Online' 
-      : status === 'away' 
-        ? '🟡 Away' 
-        : '🔴 Offline'
-  );
-
-  useEffect(() => {
-    // Simulate user status changes
-    const interval = setInterval(() => {
-      const random = Math.random();
-      if (random < 0.4) {
-        setStatus('online');
-        setLastSeen(new Date());
-      } else if (random < 0.7) {
-        setStatus('away');
-        setLastSeen(new Date());
-      } else {
-        setStatus('offline');
-        setLastSeen(new Date());
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return { status, lastSeen };
-}
-
-// Custom hook with conditional useDebugValue
-function useExpensiveCalculation(value: number) {
-  const result = useMemo(() => {
-    // Simulate expensive calculation
-    let sum = 0;
-    for (let i = 0; i < value * 1000; i++) {
-      sum += Math.random();
-    }
-    return sum;
-  }, [value]);
-
-  // Only show debug value in development
-  useDebugValue(
-    result,
-    (result) => `Expensive calculation result: ${result.toFixed(2)}`
-  );
-
-  return result;
-}
-
-// Custom hook with complex debug value
-function useFormValidation(formData: { email: string; password: string }) {
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-
-  useEffect(() => {
-    const newErrors: { email?: string; password?: string } = {};
-
-    // Email validation
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
-    }
-
-    // Password validation
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    }
-
-    setErrors(newErrors);
-  }, [formData]);
-
-  // Complex debug value showing validation status
-  useDebugValue(
-    { formData, errors },
-    ({ formData, errors }) => {
-      const hasErrors = Object.keys(errors).length > 0;
-      const isComplete = formData.email && formData.password;
-      
-      if (!isComplete) return '📝 Incomplete form';
-      if (hasErrors) return '❌ Form has errors';
-      return '✅ Form is valid';
-    }
-  );
-
-  return { errors, isValid: Object.keys(errors).length === 0 };
-}
-
-// Custom hook with lazy debug value
-function useAsyncData(url: string) {
-  const [data, setData] = useState<{ message: string } | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-
-    // Simulate API call
-    const timeout = setTimeout(() => {
-      if (Math.random() > 0.2) {
-        setData({ message: `Data from ${url}` });
-        setLoading(false);
-      } else {
-        setError('Failed to fetch data');
-        setLoading(false);
-      }
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, [url]);
-
-  // Lazy debug value - only computed when DevTools are open
-  useDebugValue(
-    { data, loading, error },
-    ({ data, loading, error }) => {
-      if (loading) return '⏳ Loading...';
-      if (error) return `❌ Error: ${error}`;
-      if (data) return '✅ Data loaded';
-      return '📭 No data';
-    }
-  );
-
-  return { data, loading, error };
-}
-
-export default function UseDebugValueExample() {
+export default function UseDebugValue() {
   const [userId, setUserId] = useState(1);
   const [calculationValue, setCalculationValue] = useState(5);
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -161,7 +29,7 @@ export default function UseDebugValueExample() {
           <p className={styles.sectionDescription}>
             Check React DevTools to see the custom debug value for this hook.
           </p>
-          
+
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupInline}>
               <label className={styles.labelInline}>
@@ -188,7 +56,7 @@ export default function UseDebugValueExample() {
           <p className={styles.sectionDescription}>
             This hook performs an expensive calculation and shows the result in DevTools.
           </p>
-          
+
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupInline}>
               <label className={styles.labelInline}>
@@ -216,7 +84,7 @@ export default function UseDebugValueExample() {
           <p className={styles.sectionDescription}>
             This hook validates form data and shows validation status in DevTools.
           </p>
-          
+
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupStacked}>
               <div className={styles.formField}>
@@ -268,7 +136,7 @@ export default function UseDebugValueExample() {
           <p className={styles.sectionDescription}>
             This hook fetches data and shows loading/error states in DevTools.
           </p>
-          
+
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupInline}>
               <label className={styles.labelInline}>

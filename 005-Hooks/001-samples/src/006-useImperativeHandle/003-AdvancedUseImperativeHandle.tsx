@@ -1,45 +1,13 @@
 import React, { useRef, forwardRef, useState, useImperativeHandle, useCallback } from 'react';
 
 import styles from './styles.module.css';
+import { AdvancedFormRef, FormData, FormErrors } from './types';
 
-interface AdvancedFormRef {
-  // Basic form methods
-  focus: () => void;
-  blur: () => void;
-  reset: () => void;
-  
-  // Validation methods
-  validate: () => { isValid: boolean; errors: string[] };
-  validateField: (fieldName: string) => { isValid: boolean; error: string };
-  
-  // Data methods
-  getData: () => FormData;
-  setData: (data: Partial<FormData>) => void;
-  
-  // State methods
-  isDirty: () => boolean;
-  isSubmitting: () => boolean;
-  
-  // Advanced methods
-  submit: () => Promise<{ success: boolean; message: string }>;
-  clearErrors: () => void;
-}
 
-interface FormData {
-  name: string;
-  email: string;
-  age: string;
-  message: string;
-}
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  age?: string;
-  message?: string;
-}
 
-const AdvancedForm = forwardRef<AdvancedFormRef, { 
+
+const AdvancedForm = forwardRef<AdvancedFormRef, {
   initialData?: Partial<FormData>;
   onSubmit?: (data: FormData) => Promise<{ success: boolean; message: string }>;
 }>((props, ref) => {
@@ -50,7 +18,7 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
     message: '',
     ...props.initialData
   });
-  
+
   const [initialData] = useState<FormData>({ ...data });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,24 +31,24 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
         if (!value.trim()) return { isValid: false, error: 'Name is required' };
         if (value.length < 2) return { isValid: false, error: 'Name must be at least 2 characters' };
         return { isValid: true, error: '' };
-      
+
       case 'email':
         if (!value.trim()) return { isValid: false, error: 'Email is required' };
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) return { isValid: false, error: 'Invalid email format' };
         return { isValid: true, error: '' };
-      
+
       case 'age':
         if (!value.trim()) return { isValid: false, error: 'Age is required' };
         const age = parseInt(value);
         if (isNaN(age) || age < 0 || age > 120) return { isValid: false, error: 'Age must be between 0 and 120' };
         return { isValid: true, error: '' };
-      
+
       case 'message':
         if (!value.trim()) return { isValid: false, error: 'Message is required' };
         if (value.length < 10) return { isValid: false, error: 'Message must be at least 10 characters' };
         return { isValid: true, error: '' };
-      
+
       default:
         return { isValid: true, error: '' };
     }
@@ -93,7 +61,7 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
     Object.keys(data).forEach((key) => {
       const fieldName = key as keyof FormData;
       const { isValid, error } = validateField(fieldName, data[fieldName]);
-      
+
       if (!isValid) {
         fieldErrors[fieldName] = error;
         errorMessages.push(error);
@@ -106,27 +74,27 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
 
   const handleFieldChange = (fieldName: keyof FormData, value: string) => {
     setData(prev => ({ ...prev, [fieldName]: value }));
-    
+
     // Check if form is dirty
     const newData = { ...data, [fieldName]: value };
     const dirty = JSON.stringify(newData) !== JSON.stringify(initialData);
     setIsDirty(dirty);
-    
+
     // Clear field error when user starts typing
     if (errors[fieldName]) {
       setErrors(prev => ({ ...prev, [fieldName]: undefined }));
     }
   };
 
-  const handleSubmit = async (): Promise<{ success: boolean; message: string }> => {
+  const handleSubmit = useCallback(async (): Promise<{ success: boolean; message: string }> => {
     const { isValid } = validateAll();
-    
+
     if (!isValid) {
       return { success: false, message: 'Please fix validation errors' };
     }
 
     setIsSubmitting(true);
-    
+
     try {
       if (props.onSubmit) {
         const result = await props.onSubmit(data);
@@ -145,7 +113,7 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [data, validateAll, props]);
 
   // ADVANCED: useImperativeHandle with complex logic and conditional methods
   useImperativeHandle(ref, () => ({
@@ -154,12 +122,12 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
       const firstInput = document.querySelector('input') as HTMLInputElement;
       firstInput?.focus();
     },
-    
+
     blur: () => {
       const activeElement = document.activeElement as HTMLElement;
       activeElement?.blur();
     },
-    
+
     reset: () => {
       setData(initialData);
       setErrors({});
@@ -169,7 +137,7 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
 
     // Validation methods
     validate: validateAll,
-    
+
     validateField: (fieldName: string) => {
       const field = fieldName as keyof FormData;
       return validateField(field, data[field]);
@@ -177,7 +145,7 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
 
     // Data methods
     getData: () => ({ ...data }),
-    
+
     setData: (newData: Partial<FormData>) => {
       setData(prev => ({ ...prev, ...newData }));
       // Recalculate dirty state
@@ -188,21 +156,21 @@ const AdvancedForm = forwardRef<AdvancedFormRef, {
 
     // State methods
     isDirty: () => isDirty,
-    
+
     isSubmitting: () => isSubmitting,
 
     // Advanced methods
     submit: handleSubmit,
-    
+
     clearErrors: () => {
       setErrors({});
     }
-  }), [data, errors, isDirty, isSubmitting, validateAll, validateField, initialData, handleSubmit]);
+  }), [data, isDirty, isSubmitting, validateAll, validateField, initialData, handleSubmit]);
 
   return (
     <div className={styles.formContainer}>
       <h3 className={styles.formTitle}>Advanced Form</h3>
-      
+
       <div className={styles.fieldContainer}>
         <label className={styles.fieldLabel}>
           Name *
@@ -334,11 +302,11 @@ const AdvancedExample: React.FC = () => {
 
       <div className={styles.layoutContainer}>
         <div className={styles.formSection}>
-          <AdvancedForm 
+          <AdvancedForm
             ref={formRef}
             initialData={{ name: 'Jane', email: 'jane@example.com' }}
           />
-          
+
           {result && (
             <div className={`${styles.resultContainer} ${result.includes('success') ? styles.resultSuccess : styles.resultError}`}>
               {result}
@@ -348,7 +316,7 @@ const AdvancedExample: React.FC = () => {
 
         <div className={styles.controlSection}>
           <h3 className={styles.controlTitle}>Control Panel</h3>
-          
+
           <div className={styles.controlGroup}>
             <h4 className={styles.controlGroupTitle}>Basic Methods:</h4>
             <button onClick={handleFocus} className={styles.controlButton}>

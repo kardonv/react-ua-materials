@@ -1,199 +1,11 @@
 import React, { useReducer, useEffect } from 'react';
 
 import styles from './styles.module.css';
+import { asyncReducer, initialState } from './reducers/AsyncReducer';
+import { mockApi } from './helpers/mockApi';
+import { Post, User } from './types/AsyncReducer';
 
-// Define data types
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-}
 
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
-
-// Define the state type
-interface AsyncState {
-  users: {
-    data: User[];
-    loading: boolean;
-    error: string;
-  };
-  posts: {
-    data: Post[];
-    loading: boolean;
-    error: string;
-  };
-  selectedUser: User | null;
-  selectedPost: Post | null;
-}
-
-// Define action types
-type AsyncAction = 
-  | { type: 'FETCH_USERS_START' }
-  | { type: 'FETCH_USERS_SUCCESS'; payload: User[] }
-  | { type: 'FETCH_USERS_ERROR'; payload: string }
-  | { type: 'FETCH_POSTS_START' }
-  | { type: 'FETCH_POSTS_SUCCESS'; payload: Post[] }
-  | { type: 'FETCH_POSTS_ERROR'; payload: string }
-  | { type: 'SELECT_USER'; payload: User }
-  | { type: 'SELECT_POST'; payload: Post }
-  | { type: 'CLEAR_SELECTION' }
-  | { type: 'RESET_STATE' };
-
-// Initial state
-const initialState: AsyncState = {
-  users: {
-    data: [],
-    loading: false,
-    error: ''
-  },
-  posts: {
-    data: [],
-    loading: false,
-    error: ''
-  },
-  selectedUser: null,
-  selectedPost: null
-};
-
-// Reducer function
-function asyncReducer(state: AsyncState, action: AsyncAction): AsyncState {
-  switch (action.type) {
-    case 'FETCH_USERS_START':
-      return {
-        ...state,
-        users: {
-          ...state.users,
-          loading: true,
-          error: ''
-        }
-      };
-
-    case 'FETCH_USERS_SUCCESS':
-      return {
-        ...state,
-        users: {
-          data: action.payload,
-          loading: false,
-          error: ''
-        }
-      };
-
-    case 'FETCH_USERS_ERROR':
-      return {
-        ...state,
-        users: {
-          ...state.users,
-          loading: false,
-          error: action.payload
-        }
-      };
-
-    case 'FETCH_POSTS_START':
-      return {
-        ...state,
-        posts: {
-          ...state.posts,
-          loading: true,
-          error: ''
-        }
-      };
-
-    case 'FETCH_POSTS_SUCCESS':
-      return {
-        ...state,
-        posts: {
-          data: action.payload,
-          loading: false,
-          error: ''
-        }
-      };
-
-    case 'FETCH_POSTS_ERROR':
-      return {
-        ...state,
-        posts: {
-          ...state.posts,
-          loading: false,
-          error: action.payload
-        }
-      };
-
-    case 'SELECT_USER':
-      return {
-        ...state,
-        selectedUser: action.payload,
-        selectedPost: null
-      };
-
-    case 'SELECT_POST':
-      return {
-        ...state,
-        selectedPost: action.payload
-      };
-
-    case 'CLEAR_SELECTION':
-      return {
-        ...state,
-        selectedUser: null,
-        selectedPost: null
-      };
-
-    case 'RESET_STATE':
-      return initialState;
-
-    default:
-      return state;
-  }
-}
-
-// Mock API functions
-const mockApi = {
-  async fetchUsers(): Promise<User[]> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Simulate random error (10% chance)
-    if (Math.random() < 0.1) {
-      throw new Error('Failed to fetch users');
-    }
-    
-    return [
-      { id: 1, name: 'John Doe', email: 'john@example.com', username: 'johndoe' },
-      { id: 2, name: 'Jane Smith', email: 'jane@example.com', username: 'janesmith' },
-      { id: 3, name: 'Bob Johnson', email: 'bob@example.com', username: 'bobjohnson' },
-      { id: 4, name: 'Alice Brown', email: 'alice@example.com', username: 'alicebrown' },
-      { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', username: 'charliewilson' }
-    ];
-  },
-
-  async fetchPosts(): Promise<Post[]> {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Simulate random error (15% chance)
-    if (Math.random() < 0.15) {
-      throw new Error('Failed to fetch posts');
-    }
-    
-    return [
-      { id: 1, title: 'Getting Started with React', body: 'React is a powerful library for building user interfaces...', userId: 1 },
-      { id: 2, title: 'Understanding Hooks', body: 'Hooks are a new addition in React 16.8...', userId: 2 },
-      { id: 3, title: 'State Management with Redux', body: 'Redux is a predictable state container...', userId: 1 },
-      { id: 4, title: 'TypeScript Best Practices', body: 'TypeScript adds static typing to JavaScript...', userId: 3 },
-      { id: 5, title: 'Modern JavaScript Features', body: 'ES6+ brings many new features to JavaScript...', userId: 2 },
-      { id: 6, title: 'CSS Grid Layout', body: 'CSS Grid is a powerful layout system...', userId: 4 },
-      { id: 7, title: 'Web Performance Optimization', body: 'Performance is crucial for user experience...', userId: 5 },
-      { id: 8, title: 'Testing React Components', body: 'Testing is essential for maintaining code quality...', userId: 3 }
-    ];
-  }
-};
 
 export default function AsyncReducer() {
   const [state, dispatch] = useReducer(asyncReducer, initialState);
@@ -205,9 +17,9 @@ export default function AsyncReducer() {
       const users = await mockApi.fetchUsers();
       dispatch({ type: 'FETCH_USERS_SUCCESS', payload: users });
     } catch (error) {
-      dispatch({ 
-        type: 'FETCH_USERS_ERROR', 
-        payload: error instanceof Error ? error.message : 'Unknown error' 
+      dispatch({
+        type: 'FETCH_USERS_ERROR',
+        payload: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   };
@@ -219,9 +31,9 @@ export default function AsyncReducer() {
       const posts = await mockApi.fetchPosts();
       dispatch({ type: 'FETCH_POSTS_SUCCESS', payload: posts });
     } catch (error) {
-      dispatch({ 
-        type: 'FETCH_POSTS_ERROR', 
-        payload: error instanceof Error ? error.message : 'Unknown error' 
+      dispatch({
+        type: 'FETCH_POSTS_ERROR',
+        payload: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   };
@@ -305,7 +117,7 @@ export default function AsyncReducer() {
 
           {state.users.loading && renderLoadingSpinner()}
           {state.users.error && renderError(state.users.error)}
-          
+
           {!state.users.loading && !state.users.error && (
             <div className={styles.asyncSectionContent}>
               {state.users.data.map(user => (
@@ -335,7 +147,7 @@ export default function AsyncReducer() {
 
           {state.posts.loading && renderLoadingSpinner()}
           {state.posts.error && renderError(state.posts.error)}
-          
+
           {!state.posts.loading && !state.posts.error && (
             <div className={styles.asyncSectionContent}>
               {state.posts.data.map(post => (
@@ -362,7 +174,7 @@ export default function AsyncReducer() {
       {(state.selectedUser || state.selectedPost) && (
         <div className={styles.selectionDetails}>
           <h3 className={styles.selectionTitle}>Selection Details</h3>
-          
+
           {state.selectedUser && (
             <div className={styles.selectionSection}>
               <h4 className={styles.selectionSectionTitle}>Selected User:</h4>
@@ -399,7 +211,7 @@ export default function AsyncReducer() {
           <li><strong>Debugging:</strong> Easy to track state changes through actions</li>
           <li><strong>Testing:</strong> Pure reducer functions are easy to test</li>
         </ul>
-        
+
         <h4>Key Features:</h4>
         <ul className={styles.explanationList}>
           <li><strong>Simulated API:</strong> Mock API with random errors to demonstrate error handling</li>

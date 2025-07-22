@@ -1,81 +1,10 @@
-import React, { useRef, forwardRef, useState, useImperativeHandle } from 'react';
+import React, { useRef, useState } from 'react';
 
 import styles from './styles.module.css';
+import { InputRef, SecureInput } from './components';
 
 // Solution: With useImperativeHandle, we control exactly what methods are exposed
 // This provides better encapsulation and security
-
-interface InputRef {
-  focus: () => void;
-  blur: () => void;
-  select: () => void;
-  // Only expose a public validation method, not internal ones
-  validate: () => { isValid: boolean; message: string };
-}
-
-const SecureInput = forwardRef<InputRef, { placeholder?: string }>((props, ref) => {
-  const [value, setValue] = useState('');
-  const [isValid, setIsValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Internal validation method - NOT exposed to parent
-  const validateInput = () => {
-    const isValidInput = value.length >= 3;
-    setIsValid(isValidInput);
-    setErrorMessage(isValidInput ? '' : 'Input must be at least 3 characters');
-    return isValidInput;
-  };
-
-  // Internal method to clear validation - NOT exposed to parent
-  const clearValidation = () => {
-    setIsValid(true);
-    setErrorMessage('');
-  };
-
-  // Internal method to set state - NOT exposed to parent
-  const setInternalState = (newValue: string) => {
-    setValue(newValue);
-  };
-
-  // SOLUTION: useImperativeHandle controls what's exposed
-  useImperativeHandle(ref, () => ({
-    // Only expose the methods we want the parent to access
-    focus: () => {
-      const input = document.querySelector('input') as HTMLInputElement;
-      input?.focus();
-    },
-    blur: () => {
-      const input = document.querySelector('input') as HTMLInputElement;
-      input?.blur();
-    },
-    select: () => {
-      const input = document.querySelector('input') as HTMLInputElement;
-      input?.select();
-    },
-    // Expose a controlled validation method that doesn't give access to internal state
-    validate: () => {
-      const isValidInput = validateInput(); // Call internal method
-      return {
-        isValid: isValidInput,
-        message: errorMessage
-      };
-    }
-    // Internal methods (validateInput, clearValidation, setInternalState) are NOT exposed
-  }), [value, errorMessage]); // Dependencies for the imperative handle
-
-  return (
-    <div className={styles.inputContainer}>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={props.placeholder}
-        className={isValid ? styles.input : styles.inputError}
-      />
-      {!isValid && <div className={styles.errorMessage}>{errorMessage}</div>}
-    </div>
-  );
-});
 
 const SolutionExample: React.FC = () => {
   const inputRef = useRef<InputRef>(null);

@@ -1,47 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import styles from './styles.module.css';
+import { useDebounce, useDebounceCallback } from './hooks';
 
 // Custom Hook: useDebounce
 // Debounces a value to optimize performance and reduce unnecessary operations
-
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    // Set up the timeout
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    // Clean up the timeout if value changes (also on delay change or unmount)
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
-// Advanced useDebounce with callback support
-function useDebounceCallback<T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number,
-  deps: React.DependencyList = []
-): T {
-  const timeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined);
-
-  return React.useCallback((...args: Parameters<T>) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      callback(...args);
-    }, delay);
-  }, [callback, delay, ...deps]) as T;
-}
-
-// Example Component demonstrating useDebounce
 const UseDebounceExample: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [apiCallCount, setApiCallCount] = useState(0);
@@ -97,7 +60,6 @@ const UseDebounceExample: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Example with debounced callback
   const debouncedSave = useDebounceCallback((data: string) => {
     addToLog(`Saving data: "${data}"`);
   }, 1000);
