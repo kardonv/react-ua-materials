@@ -1,0 +1,3 @@
+001 - how to communicate between components
+002 - use context (theme, auth)
+003 - useRedux

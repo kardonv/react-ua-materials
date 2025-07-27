@@ -68,5 +68,12 @@ export function useLocalStorage<T>(
         return () => window.removeEventListener('storage', handleStorageChange);
     }, [key, deserialize, onError]);
 
+    useEffect(() => {
+        // Initialize localStorage with the initial value if it doesn't exist
+        if (window.localStorage.getItem(key) === null) {
+            window.localStorage.setItem(key, serialize(initialValue));
+        }
+    }, []);
+
     return [storedValue, setValue, removeValue];
 }
